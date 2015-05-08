@@ -25,11 +25,29 @@ then
 fi
 
 cat $Dockerfile | docker build -t $myimage -
+if [ $? -ne 0 ]
+then
+  echo
+  echo
+  echo "error building the container"
+  echo
+  echo
+  exit -1
+fi
+
+echo "sudo docker run --name $mycontainer --privileged=true -p $sshport:22 -h $name -d -t -i $myimage"
 MYAPP=$(sudo docker run --name $mycontainer --privileged=true -p $sshport:22 -h $name -d -t -i $myimage)
 docker port $mycontainer 22
-ssh-keygen -f "/root/.ssh/known_hosts" -R [localhost]:$sshport
+if [ -f /root/.ssh/known_hosts ]
+then
+  ssh-keygen -f "/root/.ssh/known_hosts" -R [localhost]:$sshport
+fi
 
+echo
+echo
 echo connect to the container with: ssh -p $sshport root@localhost
+echo
+echo
 
 if [[ $Dockerfile == $origDockerfile.withkey ]]
 then
