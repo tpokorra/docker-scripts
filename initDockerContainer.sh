@@ -3,7 +3,7 @@
 if [ -z $3 ]
 then
   echo "please call $0 <name of new container> <cid> <Dockerfile>"
-  echo "eg. $0 50-centos7-mymachine 50 Dockerfiles/Dockerfile.centos7"
+  echo "eg. $0 50-centos7.example.org 50 Dockerfiles/Dockerfile.centos7"
   exit -1
 fi
 
