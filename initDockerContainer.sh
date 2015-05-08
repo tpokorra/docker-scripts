@@ -15,9 +15,23 @@ myimage=$name/$cid
 mycontainer=$name
 sshport=20$cid
 
+# inject public key
+if [ -f /root/.ssh/id_rsa.pub ]
+then
+  key=`cat /root/.ssh/id_rsa.pub`
+  cat $Dockerfile | sed -e "s~#__INSERTPUBLICKEY__~RUN echo '$key'  > /root/.ssh/authorized_keys~g" > $Dockerfile.withkey
+  origDockerfile=$Dockerfile
+  Dockerfile=$Dockerfile.withkey
+fi
+
 cat $Dockerfile | docker build -t $myimage -
 MYAPP=$(sudo docker run --name $mycontainer --privileged=true -p $sshport:22 -h $name -d -t -i $myimage)
 docker port $mycontainer 22
 ssh-keygen -f "/root/.ssh/known_hosts" -R [localhost]:$sshport
 
 echo connect to the container with: ssh -p $sshport root@localhost
+
+if [[ $Dockerfile == $origDockerfile.withkey ]]
+then
+  rm -f $Dockerfile
+fi

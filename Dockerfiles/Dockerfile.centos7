@@ -7,7 +7,7 @@ RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N ''
 
 # install public key for root
 RUN mkdir -p /root/.ssh
-RUN echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDSG1OSssk5EE0zI5tMD8LMO3WwBEpx9yZULDM0/9asu4w9xzhS2XrvaW0YmnX9jZmvSeRx6abzNfpS7v0ZMBikqVrPZQgIdcNc+dHnRsvnnc1Sq1D0loXmrzE9RBA40K6PWup4cwXzqCq8GMiqKdFkqUjdoeS7e5bJNp9gPinXiyiOlmn0sXKk1WmjPet8m6odEGGdmIQRPeCOXN9fmL2Ba6TC2dDRyMX/C3nXfba4rAkCvn15Jiumg4EZPE1zo1vPTmJL0KUKfr6wmTBh4RB6sF8q3QO1uhg9EzCJtgK65KZfShHdP2WpwlAXOEeyRxgHlKhKbeCO4fyqwnsCwfZn timotheus@pokorra.de"  > /root/.ssh/authorized_keys
+#__INSERTPUBLICKEY__
 RUN chmod -R 600 /root/.ssh
 
 # SSH login fix. Otherwise user is kicked off after login
