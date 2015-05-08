@@ -35,7 +35,6 @@ then
   exit -1
 fi
 
-echo "sudo docker run --name $mycontainer --privileged=true -p $sshport:22 -h $name -d -t -i $myimage"
 MYAPP=$(sudo docker run --name $mycontainer --privileged=true -p $sshport:22 -h $name -d -t -i $myimage)
 docker port $mycontainer 22
 if [ -f /root/.ssh/known_hosts ]
