@@ -14,6 +14,10 @@ Installation on Fedora:
     yum install docker
     sudo systemctl start docker
     sudo systemctl enable docker
+
+Initialize and start a container:
+
+    ./initDockerContainer.sh 50-centos7-mymachine 50 Dockerfiles/Dockerfile.centos7
  
 Show some information:
 
