@@ -2,6 +2,7 @@ FROM centos:7
 ENV container docker
 RUN yum -y install net-tools openssh-server selinux-policy systemd-container; yum clean all;
 RUN mkdir /var/run/sshd
+RUN sed -i '/nodocs/d' /etc/yum.conf
 
 # create host ssh key
 RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N ''
