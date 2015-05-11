@@ -15,6 +15,12 @@ myimage=$name/$cid
 mycontainer=$name
 sshport=20$cid
 
+# create public key
+if [ ! -f /root/.ssh/id_rsa.pub ]
+then
+  ssh-keygen -t rsa -C "`whoami`@`hostname -f`"
+fi
+
 # inject public key
 if [ -f /root/.ssh/id_rsa.pub ]
 then
