@@ -24,8 +24,21 @@ fi
 # inject public key
 if [ -f /root/.ssh/id_rsa.pub ]
 then
+  rm $Dockerfile.withkey
   key=`cat /root/.ssh/id_rsa.pub`
-  cat $Dockerfile | sed -e "s~#__INSERTPUBLICKEY__~RUN echo '$key'  > /root/.ssh/authorized_keys~g" > $Dockerfile.withkey
+  authorized_keys=`cat /root/.ssh/authorized_keys`
+  OLDIFS=$IFS
+  IFS=$'\n'
+  for line in $(cat $Dockerfile); do
+    if [ $line == "__INSERTPUBLICKEY__" ]; then
+      echo "RUN echo '$key' > /root/.ssh/authorized_keys" >> $Dockerfile.withkey
+      echo "RUN echo '$authorized_keys' >> /root/.ssh/authorized_keys" >> $Dockerfile.withkey
+    else
+      echo $line
+      echo $line >> $Dockerfile.withkey
+    fi
+  done
+  IFS=$OLDIFS
   origDockerfile=$Dockerfile
   Dockerfile=$Dockerfile.withkey
 fi
