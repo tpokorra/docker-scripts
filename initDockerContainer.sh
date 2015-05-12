@@ -24,7 +24,7 @@ fi
 # inject public key
 if [ -f /root/.ssh/id_rsa.pub ]
 then
-  rm $Dockerfile.withkey
+  rm -f $Dockerfile.withkey
   key=`cat /root/.ssh/id_rsa.pub`
   authorized_keys=`cat /root/.ssh/authorized_keys`
   OLDIFS=$IFS
