@@ -30,11 +30,12 @@ then
   OLDIFS=$IFS
   IFS=$'\n'
   for line in $(cat $Dockerfile); do
-    if [ $line == "__INSERTPUBLICKEY__" ]; then
-      echo "RUN echo '$key' > /root/.ssh/authorized_keys" >> $Dockerfile.withkey
-      echo "RUN echo '$authorized_keys' >> /root/.ssh/authorized_keys" >> $Dockerfile.withkey
+    if [ $line == "#__INSERTPUBLICKEY__" ]; then
+      echo "RUN echo '$key' >> /root/.ssh/authorized_keys" >> $Dockerfile.withkey
+      for authline in $(cat /root/.ssh/authorized_keys); do
+        echo "RUN echo '$authline' >> /root/.ssh/authorized_keys" >> $Dockerfile.withkey
+      done
     else
-      echo $line
       echo $line >> $Dockerfile.withkey
     fi
   done
