@@ -13,7 +13,7 @@ Dockerfile=$3
 
 myimage=$name/$cid
 mycontainer=$name
-sshport=20$cid
+sshport=$((2000+cid))
 
 # create public key
 if [ ! -f /root/.ssh/id_rsa.pub ]
