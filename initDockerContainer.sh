@@ -10,6 +10,7 @@ fi
 name=$1
 cid=$2
 Dockerfile=$3
+mount=$4
 
 myimage=$name/$cid
 mycontainer=$name
@@ -55,7 +56,7 @@ then
   exit -1
 fi
 
-MYAPP=$(docker run --name $mycontainer --privileged=true -p $sshport:22 -h $name -d -t -i $myimage)
+MYAPP=$(docker run --name $mycontainer --privileged=true $mount -p $sshport:22 -h $name -d -t -i $myimage)
 docker port $mycontainer 22
 if [ -f /root/.ssh/known_hosts ]
 then
