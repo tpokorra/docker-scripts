@@ -16,6 +16,12 @@ myimage=$name/$cid
 mycontainer=$name
 sshport=$((2000+cid))
 
+if [ ! -f $Dockerfile ]
+then
+  echo "Missing Dockerfile: " $Dockerfile
+  exit 1
+fi
+
 # create public key
 if [ ! -f /root/.ssh/id_rsa.pub ]
 then
