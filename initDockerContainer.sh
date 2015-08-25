@@ -8,9 +8,12 @@ then
 fi
 
 name=$1
-cid=$2
-Dockerfile=$3
-mount=$4
+shift
+cid=$1
+shift
+Dockerfile=$1
+shift
+mount=$*
 
 myimage=$name/$cid
 mycontainer=$name
@@ -19,7 +22,7 @@ sshport=$((2000+cid))
 if [ ! -f $Dockerfile ]
 then
   echo "Missing Dockerfile: " $Dockerfile
-  exit 1
+  exit -1
 fi
 
 # create public key
@@ -63,6 +66,15 @@ then
 fi
 
 MYAPP=$(docker run --name $mycontainer --privileged=true $mount -p $sshport:22 -h $name -d -t -i $myimage)
+if [ $? -ne 0 ]
+then
+  echo "problem starting the container"
+  echo "command line was: "
+  echo "docker run --name $mycontainer --privileged=true $mount -p $sshport:22 -h $name -d -t -i $myimage"
+  echo
+  exit -1
+fi
+
 docker port $mycontainer 22
 if [ -f /root/.ssh/known_hosts ]
 then
