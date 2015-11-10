@@ -65,6 +65,7 @@ then
   exit -1
 fi
 
+echo "docker run --name $mycontainer --privileged=true $mount -p $sshport:22 -h $name -d -t -i $myimage"
 MYAPP=$(docker run --name $mycontainer --privileged=true $mount -p $sshport:22 -h $name -d -t -i $myimage)
 if [ $? -ne 0 ]
 then
