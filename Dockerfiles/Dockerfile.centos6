@@ -1,0 +1,26 @@
+FROM centos:6
+
+# packages should be installed with docs
+RUN sed -i -e "s/tsflags=nodocs/#tsflags=nodocs/g" /etc/yum.conf
+
+ENV container docker
+RUN yum -y update; yum clean all; 
+RUN yum -y install openssh-server selinux-policy vim
+RUN yum clean all
+
+RUN mkdir /var/run/sshd
+
+# create host ssh key
+RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N ''
+
+# install public key for root
+RUN mkdir -p /root/.ssh
+#__INSERTPUBLICKEY__
+RUN chmod -R 600 /root/.ssh; chkconfig sshd on; service sshd start
+
+# make sure SELinux is disabled in fact
+RUN sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
+
+EXPOSE 22
+
+CMD ["/usr/sbin/sshd", "-D"]
