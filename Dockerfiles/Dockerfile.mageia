@@ -1,0 +1,2 @@
+FROM mageia:5
+CMD ["bash"]
