@@ -1,5 +1,5 @@
-FROM fedora:22
-RUN dnf -y install net-tools openssh-server
+FROM fedora:25
+RUN dnf -y install net-tools openssh-server glibc-locale-source
 RUN mkdir /var/run/sshd
 
 # create host ssh key
