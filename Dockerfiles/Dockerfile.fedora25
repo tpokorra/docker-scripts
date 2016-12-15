@@ -1,6 +1,4 @@
-#FROM fedora:25
-# see http://www.pokorra.de/2016/10/using-fedora-25-beta-in-docker-for-lightbuildserver/
-FROM fedora-docker-base-25_beta-1.1.x86_64:latest
+FROM fedora:25
 RUN dnf -y install net-tools openssh-server glibc-locale-source
 RUN mkdir /var/run/sshd
 
