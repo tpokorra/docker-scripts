@@ -1,5 +1,5 @@
-FROM opensuse:13.2
-RUN zypper --non-interactive install openssh opensuse-release
+FROM opensuse:42.2
+RUN zypper --non-interactive install openssh openSUSE-release
 
 # create host ssh key
 RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N ''
