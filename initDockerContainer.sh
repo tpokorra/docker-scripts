@@ -54,7 +54,24 @@ then
   Dockerfile=$Dockerfile.withkey
 fi
 
-cat $Dockerfile | docker build -t $myimage -
+if [[ "$http_proxy" != "" ]]
+then
+  if [ ! -f /etc/systemd/system/docker.service.d/http-proxy.conf ]
+  then
+    mkdir -p /etc/systemd/system/docker.service.d
+    cat > /etc/systemd/system/docker.service.d/http-proxy.conf << FINISH
+[Service]
+Environment="HTTP_PROXY=$http_proxy"
+Environment="HTTPS_PROXY=$https_proxy"
+FINISH
+    systemctl daemon-reload
+    systemctl restart docker
+  fi
+fi
+
+cat $Dockerfile | docker build \
+  --build-arg https_proxy=$https_proxy --build-arg http_proxy=$http_proxy \
+  -t $myimage -
 if [ $? -ne 0 ]
 then
   echo
@@ -65,8 +82,9 @@ then
   exit -1
 fi
 
-echo "docker run --name $mycontainer --privileged=true $mount -p $sshport:22 -h $name -d -t -i $myimage"
-MYAPP=$(docker run --name $mycontainer --privileged=true $mount -p $sshport:22 -h $name -d -t -i $myimage)
+echo "starting the container"
+#echo "docker run --build-arg https_proxy=$https_proxy --e http_proxy=$http_proxy --name $mycontainer --privileged=true $mount -p $sshport:22 -h $name -d -t -i $myimage"
+MYAPP=$(docker run -e https_proxy=$https_proxy -e http_proxy=$http_proxy --name $mycontainer --privileged=true $mount -p $sshport:22 -h $name -d -t -i $myimage)
 if [ $? -ne 0 ]
 then
   echo "problem starting the container"
