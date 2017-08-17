@@ -83,7 +83,7 @@ then
 fi
 
 echo "starting the container"
-#echo "docker run --build-arg https_proxy=$https_proxy --e http_proxy=$http_proxy --name $mycontainer --privileged=true $mount -p $sshport:22 -h $name -d -t -i $myimage"
+#echo "docker run -e https_proxy=$https_proxy -e http_proxy=$http_proxy --name $mycontainer --privileged=true $mount -p $sshport:22 -h $name -d -t -i $myimage"
 MYAPP=$(docker run -e https_proxy=$https_proxy -e http_proxy=$http_proxy --name $mycontainer --privileged=true $mount -p $sshport:22 -h $name -d -t -i $myimage)
 if [ $? -ne 0 ]
 then
