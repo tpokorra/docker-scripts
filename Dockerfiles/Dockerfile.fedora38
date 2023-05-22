@@ -1,4 +1,4 @@
-FROM fedora:35
+FROM fedora:38
 RUN dnf -y install net-tools openssh-server glibc-locale-source
 RUN mkdir /var/run/sshd
 
