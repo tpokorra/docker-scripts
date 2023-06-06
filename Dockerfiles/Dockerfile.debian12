@@ -1,4 +1,4 @@
-FROM debian:8
+FROM debian:12
 
 RUN apt-get update && apt-get install -y openssh-server && apt-get clean all
 RUN mkdir /var/run/sshd
