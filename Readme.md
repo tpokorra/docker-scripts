@@ -30,6 +30,10 @@ Show some information:
     # show overall docker info
     docker info
 
+Attach Bash Shell to container:
+
+    docker exec -t -i test9 /bin/bash
+
 Stop and delete a single container:
 
     docker stop test9
