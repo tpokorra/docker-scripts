@@ -1,4 +1,5 @@
-FROM centos:6
+# see https://hub.docker.com/r/dokken/centos-stream-9
+FROM dokken/centos-stream-9
 
 # packages should be installed with docs
 RUN sed -i -e "s/tsflags=nodocs/#tsflags=nodocs/g" /etc/yum.conf

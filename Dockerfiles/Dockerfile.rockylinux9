@@ -1,4 +1,5 @@
-FROM centos:8
+# see https://hub.docker.com/_/rockylinux
+FROM rockylinux:9
 
 # packages should be installed with docs
 RUN sed -i -e "s/tsflags=nodocs/#tsflags=nodocs/g" /etc/yum.conf

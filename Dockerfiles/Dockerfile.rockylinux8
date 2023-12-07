@@ -1,3 +1,4 @@
+# see https://hub.docker.com/_/rockylinux
 FROM rockylinux:8
 
 # packages should be installed with docs
